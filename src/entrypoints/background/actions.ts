@@ -7,8 +7,14 @@ export const actions = {
     browser.runtime.openOptionsPage();
   },
   async checkNoteExists({ url }: { url: string }) {
-    const endpoint = await getEndpoint();
+    const appOrigin = await appOriginStorage.getValue();
     const access_key = await getAccessKey();
+    if (!access_key || !appOrigin.startsWith("http")) {
+      return {
+        error: "Config error",
+      };
+    }
+    const endpoint = await getEndpoint();
     const searchParams = new URLSearchParams({
       url,
       access_key,

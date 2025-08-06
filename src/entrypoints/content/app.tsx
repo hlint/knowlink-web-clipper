@@ -9,12 +9,8 @@ export default function App() {
   const appOrigin = useStorage(appOriginStorage);
   const { showHoverBall } = useValue();
   const enableExtension = useStorage(enableExtensionStorage);
-  return (
-    <>
-      {appOrigin &&
-        !url.startsWith(appOrigin) &&
-        enableExtension &&
-        showHoverBall && <ActionPanel />}
-    </>
-  );
+  if (appOrigin && url.startsWith(appOrigin)) {
+    return null;
+  }
+  return <>{enableExtension && showHoverBall && <ActionPanel />}</>;
 }
